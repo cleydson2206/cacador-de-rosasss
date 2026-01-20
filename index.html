@@ -6,193 +6,203 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
 body{
-  background:url("fundo.png") no-repeat center center fixed;
-  background-size:cover;
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:#000 url("fundo.jpg") center/cover no-repeat fixed;
   color:#fff;
 }
 .overlay{
-  background:rgba(0,0,0,0.85);
   min-height:100vh;
-  padding:20px;
+  background:rgba(0,0,0,0.82);
+  display:flex;
+  justify-content:center;
+  align-items:center;
 }
-.container{
-  max-width:420px;
-  margin:auto;
-}
-h1{
+.card{
+  width:360px;
+  padding:25px;
+  border-radius:18px;
+  border:2px solid #e50914;
+  box-shadow:0 0 25px #e50914;
+  background:rgba(10,0,20,0.9);
   text-align:center;
-  color:#ff2d2d;
-  text-shadow:0 0 20px #ff2d2d;
-  margin-bottom:10px;
 }
-.sub{
-  text-align:center;
-  font-size:14px;
-  opacity:0.9;
-  margin-bottom:15px;
-}
-.status{
-  text-align:center;
-  margin-bottom:20px;
-  color:#ccc;
-}
-.box{
-  border:2px solid #ff2d2d;
-  border-radius:16px;
-  padding:20px;
-  margin-bottom:20px;
-  background:rgba(0,0,0,0.65);
-  box-shadow:0 0 25px rgba(255,45,45,0.5);
-}
-.btn{
-  width:100%;
-  padding:14px;
-  margin-top:12px;
-  background:#ff2d2d;
-  border:none;
-  border-radius:12px;
-  color:#fff;
-  font-size:16px;
-  cursor:pointer;
-  box-shadow:0 0 20px rgba(255,45,45,0.9);
-}
-.btn:active{transform:scale(0.97)}
+h1{color:#e50914;margin-bottom:10px;}
 input{
   width:100%;
   padding:12px;
-  font-size:18px;
-  text-align:center;
-  border-radius:10px;
-  border:none;
   margin-top:10px;
+  border-radius:8px;
+  border:none;
+  font-size:16px;
 }
-.resultado{
+button{
+  width:100%;
+  padding:14px;
+  margin-top:12px;
+  background:#e50914;
+  color:#fff;
+  border:none;
+  border-radius:8px;
+  font-size:16px;
+  cursor:pointer;
+}
+.copy{
+  background:#333;
+}
+.hidden{display:none;}
+.result{
   margin-top:15px;
   font-size:18px;
-  text-align:center;
-  text-shadow:0 0 10px #ff2d2d;
 }
-.hidden{display:none}
+.alvo{
+  animation:pulse 1s infinite;
+}
+@keyframes pulse{
+  0%{opacity:1}
+  50%{opacity:.4}
+  100%{opacity:1}
+}
 .whats{
-  background:#25d366;
-  box-shadow:0 0 20px #25d366;
-}
-footer{
-  text-align:center;
-  font-size:12px;
-  opacity:0.6;
   margin-top:20px;
+  padding:15px;
+  border-radius:14px;
+  border:2px solid #25d366;
+  box-shadow:0 0 20px #25d366;
+  background:rgba(0,40,0,0.8);
+}
+.whats h3{
+  color:#25d366;
+}
+.btn-whats{
+  background:#25d366;
+  color:#000;
+  font-weight:bold;
+  animation:pulse 1.2s infinite;
 }
 </style>
 </head>
 
 <body>
 <div class="overlay">
-<div class="container">
 
-<h1>CAÇADOR DE ROSAS</h1>
-<div class="sub">Leitura estratégica • Precisão • Entrada no momento certo</div>
+<!-- LOGIN -->
+<div class="card" id="loginBox">
+  <h1>ACESSO VIP</h1>
+  <p>Salve seus dados</p>
 
-<div class="status" id="statusAcesso">⏳ Verificando acesso...</div>
+  <p><b>Login:</b> <span id="genLogin"></span></p>
+  <button class="copy" onclick="copiar(genLogin.innerText)">Copiar login</button>
 
-<div class="box">
-<p style="text-align:center;margin-bottom:10px;">
-Enquanto muitos entram no impulso,<br>
-o Caçador observa, calcula e entra quando a rosa aparece.
-</p>
+  <p><b>Senha:</b> <span id="genSenha"></span></p>
+  <button class="copy" onclick="copiar(genSenha.innerText)">Copiar senha</button>
 
-<button class="btn" onclick="ativarFerramenta()">✈️ ATIVAR LEITURA DO AVIATOR</button>
+  <input id="loginInput" placeholder="Login">
+  <input id="senhaInput" placeholder="Senha" type="password">
+  <button onclick="entrar()">Entrar</button>
 </div>
 
-<!-- FERRAMENTA -->
-<div id="ferramenta" class="hidden">
+<!-- APP -->
+<div class="card hidden" id="appBox">
+  <h1>CAÇADOR DE ROSAS</h1>
+  <p>⏳ Acesso ativo • 30 dias restantes</p>
 
-<div class="box">
-<h3>🎯 RADAR ROSA</h3>
-<p>Digite a última rosa (formato 2123)</p>
-<input id="radarInput" placeholder="2123">
-<button class="btn" onclick="calcularRadar()">Calcular</button>
-<div id="radarResultado" class="resultado"></div>
+  <hr>
+
+  <h3>🎯 Radar Rosa</h3>
+  <input id="radarInput" placeholder="Ex: 2152">
+  <button onclick="radar()">Calcular</button>
+  <div class="result" id="radarRes"></div>
+
+  <hr>
+
+  <h3>🌹 Somador Rosa</h3>
+  <input id="somaInput" placeholder="Ex: 1906">
+  <button onclick="somador()">Calcular</button>
+  <div class="result" id="somaRes"></div>
+
+  <!-- GRUPO VIP -->
+  <div class="whats">
+    <h3>🟢 Grupo VIP WhatsApp</h3>
+    <p><b>Adriana Aviator</b></p>
+    <button class="btn-whats"
+      onclick="window.open('https://chat.whatsapp.com/JjhxKUuyAGG31FuEQCEb8y','_blank')">
+      ENTRAR NO GRUPO VIP
+    </button>
+  </div>
+
+  <button onclick="logout()">Sair</button>
 </div>
 
-<div class="box">
-<h3>🌹 CAÇADOR DE ROSAS</h3>
-<p>Somador anterior e seguinte</p>
-<input id="somaInput" placeholder="2105">
-<button class="btn" onclick="calcularSoma()">Calcular</button>
-<div id="somaResultado" class="resultado"></div>
 </div>
-
-<div class="box">
-<h3>📲 Grupo VIP WhatsApp<br>Adriana Aviator ✈️</h3>
-<button class="btn whats" onclick="entrarGrupo()">ENTRAR NO GRUPO VIP</button>
-</div>
-
-</div>
-
-<footer>
-Produtor: Cleydson Soares Ferreira<br>
-Uso educacional • Acesso temporário
-</footer>
-
-</div>
-</div>
-
-<audio id="somClick">
-<source src="https://assets.mixkit.co/sfx/preview/mixkit-game-click-1114.mp3">
-</audio>
 
 <script>
-// ===== CONTROLE DE ACESSO 30 DIAS =====
-const DIAS = 30;
-if(!localStorage.getItem("expira")){
-  localStorage.setItem("expira", Date.now() + DIAS*24*60*60*1000);
+function rand(n){return Math.floor(Math.random()*n)}
+function copiar(t){navigator.clipboard.writeText(t)}
+
+let LOGIN = localStorage.getItem("login");
+let SENHA = localStorage.getItem("senha");
+
+if(!LOGIN){
+  LOGIN = "CR"+(100000+rand(900000));
+  SENHA = Math.random().toString(36).slice(-8);
+  localStorage.setItem("login",LOGIN);
+  localStorage.setItem("senha",SENHA);
 }
 
-function atualizarStatus(){
-  const exp = parseInt(localStorage.getItem("expira"));
-  const dias = Math.ceil((exp-Date.now())/(1000*60*60*24));
-  if(dias<=0){
-    document.body.innerHTML="<h2 style='color:red;text-align:center;margin-top:50px'>⛔ ACESSO EXPIRADO</h2>";
-    return;
+genLogin.innerText = LOGIN;
+genSenha.innerText = SENHA;
+
+function entrar(){
+  if(loginInput.value===LOGIN && senhaInput.value===SENHA){
+    loginBox.classList.add("hidden");
+    appBox.classList.remove("hidden");
+  } else {
+    alert("Login ou senha inválidos");
   }
-  document.getElementById("statusAcesso").innerText =
-    "⏳ Acesso ativo • "+dias+" dias restantes";
-}
-atualizarStatus();
-
-// ===== ATIVAÇÃO =====
-function ativarFerramenta(){
-  document.getElementById("somClick").play();
-  document.getElementById("ferramenta").classList.remove("hidden");
-  document.getElementById("ferramenta").scrollIntoView({behavior:"smooth"});
 }
 
-// ===== RADAR =====
-function calcularRadar(){
-  let v=document.getElementById("radarInput").value;
-  if(v.length!==4){alert("Use 2123");return;}
-  let h=parseInt(v.slice(0,2)), m=parseInt(v.slice(2));
-  let r1=(m+3)%60, r2=(m+7)%60, r3=(m+11)%60;document.getElementById("radarResultado").innerHTML=
-  "🎯 "+h+":"+r1+"<br>🎯 "+h+":"+r2+"<br>🎯 "+h+":"+r3;
+function logout(){
+  location.reload();
 }
 
-// ===== SOMADOR =====
-function calcularSoma(){
-  let v=document.getElementById("somaInput").value;
-  if(v.length!==4){alert("Use 2105");return;}
-  let h=parseInt(v.slice(0,2)), m=parseInt(v.slice(2));
-  let ant=(m+9)%60;
-  let seg=(m+11)%60;
-  document.getElementById("somaResultado").innerHTML=
-  "🎯 "+h+":"+ant+"<br>🎯 "+h+":"+seg;
+function normaliza(h,m){
+  if(m>=60){m-=60;h++}
+  if(h>=24)h=0;
+  return [h,m];
 }
 
-// ===== WHATSAPP =====
-function entrarGrupo(){
-  window.open("https://chat.whatsapp.com/JjhxKUuyAGG31FuEQCEb8y","_blank");
+function radar(){
+  let v=radarInput.value;
+  if(v.length!=4)return;
+  let h=+v.slice(0,2), m=+v.slice(2);
+  let d=Math.floor(m/10), u=m%10;
+
+  let a=m+(d+u);
+  let b=m+(d*u);
+  let c=m+Math.floor(m/2);
+
+  let r="";
+  [[h,a],[h,b],[h,c]].forEach(x=>{
+    let n=normaliza(x[0],x[1]);
+    r+=`🎯 <span class="alvo">${String(n[0]).padStart(2,"0")}:${String(n[1]).padStart(2,"0")}</span><br>`;
+  });
+  radarRes.innerHTML=r;
+}
+
+function somador(){
+  let v=somaInput.value;
+  if(v.length!=4)return;let h=+v.slice(0,2), m=+v.slice(2);
+  let ant=(m-1+60)%60;
+  let seg=(m+1)%60;
+
+  let r1=normaliza(h,m+(ant%10));
+  let r2=normaliza(h,m+(seg%10));
+
+  somaRes.innerHTML=
+  `🎯 <span class="alvo">${r1[1]}</span><br>
+   🎯 <span class="alvo">${r2[1]}</span>`;
 }
 </script>
 
