@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Caçador de Rosas</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+body{
+  background:url("fundo.png") no-repeat center center fixed;
+  background-size:cover;
+  color:#fff;
+}
+.overlay{
+  background:rgba(0,0,0,0.85);
+  min-height:100vh;
+  padding:20px;
+}
+.container{
+  max-width:420px;
+  margin:auto;
+}
+h1{
+  text-align:center;
+  color:#ff2d2d;
+  text-shadow:0 0 20px #ff2d2d;
+  margin-bottom:10px;
+}
+.sub{
+  text-align:center;
+  font-size:14px;
+  opacity:0.9;
+  margin-bottom:15px;
+}
+.status{
+  text-align:center;
+  margin-bottom:20px;
+  color:#ccc;
+}
+.box{
+  border:2px solid #ff2d2d;
+  border-radius:16px;
+  padding:20px;
+  margin-bottom:20px;
+  background:rgba(0,0,0,0.65);
+  box-shadow:0 0 25px rgba(255,45,45,0.5);
+}
+.btn{
+  width:100%;
+  padding:14px;
+  margin-top:12px;
+  background:#ff2d2d;
+  border:none;
+  border-radius:12px;
+  color:#fff;
+  font-size:16px;
+  cursor:pointer;
+  box-shadow:0 0 20px rgba(255,45,45,0.9);
+}
+.btn:active{transform:scale(0.97)}
+input{
+  width:100%;
+  padding:12px;
+  font-size:18px;
+  text-align:center;
+  border-radius:10px;
+  border:none;
+  margin-top:10px;
+}
+.resultado{
+  margin-top:15px;
+  font-size:18px;
+  text-align:center;
+  text-shadow:0 0 10px #ff2d2d;
+}
+.hidden{display:none}
+.whats{
+  background:#25d366;
+  box-shadow:0 0 20px #25d366;
+}
+footer{
+  text-align:center;
+  font-size:12px;
+  opacity:0.6;
+  margin-top:20px;
+}
+</style>
+</head>
+
+<body>
+<div class="overlay">
+<div class="container">
+
+<h1>CAÇADOR DE ROSAS</h1>
+<div class="sub">Leitura estratégica • Precisão • Entrada no momento certo</div>
+
+<div class="status" id="statusAcesso">⏳ Verificando acesso...</div>
+
+<div class="box">
+<p style="text-align:center;margin-bottom:10px;">
+Enquanto muitos entram no impulso,<br>
+o Caçador observa, calcula e entra quando a rosa aparece.
+</p>
+
+<button class="btn" onclick="ativarFerramenta()">✈️ ATIVAR LEITURA DO AVIATOR</button>
+</div>
+
+<!-- FERRAMENTA -->
+<div id="ferramenta" class="hidden">
+
+<div class="box">
+<h3>🎯 RADAR ROSA</h3>
+<p>Digite a última rosa (formato 2123)</p>
+<input id="radarInput" placeholder="2123">
+<button class="btn" onclick="calcularRadar()">Calcular</button>
+<div id="radarResultado" class="resultado"></div>
+</div>
+
+<div class="box">
+<h3>🌹 CAÇADOR DE ROSAS</h3>
+<p>Somador anterior e seguinte</p>
+<input id="somaInput" placeholder="2105">
+<button class="btn" onclick="calcularSoma()">Calcular</button>
+<div id="somaResultado" class="resultado"></div>
+</div>
+
+<div class="box">
+<h3>📲 Grupo VIP WhatsApp<br>Adriana Aviator ✈️</h3>
+<button class="btn whats" onclick="entrarGrupo()">ENTRAR NO GRUPO VIP</button>
+</div>
+
+</div>
+
+<footer>
+Produtor: Cleydson Soares Ferreira<br>
+Uso educacional • Acesso temporário
+</footer>
+
+</div>
+</div>
+
+<audio id="somClick">
+<source src="https://assets.mixkit.co/sfx/preview/mixkit-game-click-1114.mp3">
+</audio>
+
+<script>
+// ===== CONTROLE DE ACESSO 30 DIAS =====
+const DIAS = 30;
+if(!localStorage.getItem("expira")){
+  localStorage.setItem("expira", Date.now() + DIAS*24*60*60*1000);
+}
+
+function atualizarStatus(){
+  const exp = parseInt(localStorage.getItem("expira"));
+  const dias = Math.ceil((exp-Date.now())/(1000*60*60*24));
+  if(dias<=0){
+    document.body.innerHTML="<h2 style='color:red;text-align:center;margin-top:50px'>⛔ ACESSO EXPIRADO</h2>";
+    return;
+  }
+  document.getElementById("statusAcesso").innerText =
+    "⏳ Acesso ativo • "+dias+" dias restantes";
+}
+atualizarStatus();
+
+// ===== ATIVAÇÃO =====
+function ativarFerramenta(){
+  document.getElementById("somClick").play();
+  document.getElementById("ferramenta").classList.remove("hidden");
+  document.getElementById("ferramenta").scrollIntoView({behavior:"smooth"});
+}
+
+// ===== RADAR =====
+function calcularRadar(){
+  let v=document.getElementById("radarInput").value;
+  if(v.length!==4){alert("Use 2123");return;}
+  let h=parseInt(v.slice(0,2)), m=parseInt(v.slice(2));
+  let r1=(m+3)%60, r2=(m+7)%60, r3=(m+11)%60;document.getElementById("radarResultado").innerHTML=
+  "🎯 "+h+":"+r1+"<br>🎯 "+h+":"+r2+"<br>🎯 "+h+":"+r3;
+}
+
+// ===== SOMADOR =====
+function calcularSoma(){
+  let v=document.getElementById("somaInput").value;
+  if(v.length!==4){alert("Use 2105");return;}
+  let h=parseInt(v.slice(0,2)), m=parseInt(v.slice(2));
+  let ant=(m+9)%60;
+  let seg=(m+11)%60;
+  document.getElementById("somaResultado").innerHTML=
+  "🎯 "+h+":"+ant+"<br>🎯 "+h+":"+seg;
+}
+
+// ===== WHATSAPP =====
+function entrarGrupo(){
+  window.open("https://chat.whatsapp.com/JjhxKUuyAGG31FuEQCEb8y","_blank");
+}
+</script>
+
+</body>
+</html>
