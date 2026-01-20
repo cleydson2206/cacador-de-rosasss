@@ -9,26 +9,33 @@
 body{
   margin:0;
   font-family:Arial,Helvetica,sans-serif;
-  background:#000 url("fundo.jpg") center/cover no-repeat fixed;
+  background:#0b0b0b;
   color:#fff;
 }
-.overlay{
-  min-height:100vh;
-  background:rgba(0,0,0,0.82);
-  display:flex;
-  justify-content:center;
-  align-items:center;
-}
-.card{
-  width:360px;
+
+.container{
+  max-width:420px;
+  margin:40px auto;
   padding:25px;
   border-radius:18px;
   border:2px solid #e50914;
-  box-shadow:0 0 25px #e50914;
-  background:rgba(10,0,20,0.9);
-  text-align:center;
+  box-shadow:0 0 25px rgba(229,9,20,.7);
+  background:#111;
 }
-h1{color:#e50914;margin-bottom:10px;}
+
+h1{
+  text-align:center;
+  color:#e50914;
+  text-shadow:0 0 15px rgba(229,9,20,.9);
+}
+
+.box{
+  border:1px solid #e50914;
+  border-radius:12px;
+  padding:15px;
+  margin-top:20px;
+}
+
 input{
   width:100%;
   padding:12px;
@@ -37,172 +44,173 @@ input{
   border:none;
   font-size:16px;
 }
+
 button{
   width:100%;
-  padding:14px;
   margin-top:12px;
-  background:#e50914;
-  color:#fff;
+  padding:14px;
   border:none;
   border-radius:8px;
+  background:#e50914;
+  color:#fff;
   font-size:16px;
   cursor:pointer;
+  box-shadow:0 0 15px rgba(229,9,20,.7);
 }
+
 .copy{
   background:#333;
 }
-.hidden{display:none;}
+
 .result{
-  margin-top:15px;
+  margin-top:12px;
   font-size:18px;
 }
-.alvo{
+
+.pisca{
   animation:pulse 1s infinite;
 }
-@keyframes pulse{
-  0%{opacity:1}
-  50%{opacity:.4}
-  100%{opacity:1}
-}
-.whats{
-  margin-top:20px;
-  padding:15px;
-  border-radius:14px;
-  border:2px solid #25d366;
-  box-shadow:0 0 20px #25d366;
-  background:rgba(0,40,0,0.8);
-}
-.whats h3{
-  color:#25d366;
-}
-.btn-whats{
-  background:#25d366;
+
+.whatsapp{
+  background:#25D366;
   color:#000;
   font-weight:bold;
+  font-size:17px;
   animation:pulse 1.2s infinite;
+  box-shadow:0 0 20px rgba(37,211,102,.9);
 }
+
+@keyframes pulse{
+  0%{transform:scale(1);opacity:1}
+  50%{transform:scale(1.05);opacity:.7}
+  100%{transform:scale(1);opacity:1}
+}
+
+.hidden{display:none}
 </style>
 </head>
 
 <body>
-<div class="overlay">
 
 <!-- LOGIN -->
-<div class="card" id="loginBox">
-  <h1>ACESSO VIP</h1>
-  <p>Salve seus dados</p>
+<div class="container" id="loginBox">
+  <h1>CAÇADOR DE ROSAS</h1>
 
-  <p><b>Login:</b> <span id="genLogin"></span></p>
-  <button class="copy" onclick="copiar(genLogin.innerText)">Copiar login</button>
+  <div class="box">
+    <p>🔐 <b>Acesso VIP</b></p>
+    <p>⚠️ Salve seus dados</p>
 
-  <p><b>Senha:</b> <span id="genSenha"></span></p>
-  <button class="copy" onclick="copiar(genSenha.innerText)">Copiar senha</button>
+    <p>👤 Login:</p>
+    <button class="copy" onclick="copiar(loginGerado)">Copiar login</button>
 
-  <input id="loginInput" placeholder="Login">
-  <input id="senhaInput" placeholder="Senha" type="password">
-  <button onclick="entrar()">Entrar</button>
+    <p>🔑 Senha:</p>
+    <button class="copy" onclick="copiar(senhaGerada)">Copiar senha</button>
+
+    <input id="login" placeholder="Login">
+    <input id="senha" placeholder="Senha" type="password">
+    <button onclick="entrar()">Entrar</button>
+  </div>
 </div>
 
 <!-- APP -->
-<div class="card hidden" id="appBox">
-  <h1>CAÇADOR DE ROSAS</h1>
-  <p>⏳ Acesso ativo • 30 dias restantes</p>
+<div class="container hidden" id="app">
 
-  <hr>
+<h1>CAÇADOR DE ROSAS</h1>
+<p>⏳ Acesso ativo • 30 dias restantes</p>
 
+<div class="box">
   <h3>🎯 Radar Rosa</h3>
-  <input id="radarInput" placeholder="Ex: 2152">
-  <button onclick="radar()">Calcular</button>
-  <div class="result" id="radarRes"></div>
+  <input id="radarInput" placeholder="Ex: 2106">
+  <button onclick="calcularRadar()">Calcular</button>
+  <div class="result" id="radarResultado"></div>
+</div>
 
-  <hr>
-
-  <h3>🌹 Somador Rosa</h3>
+<div class="box">
+  <h3>🌹 Caçador de Rosas</h3>
   <input id="somaInput" placeholder="Ex: 1906">
-  <button onclick="somador()">Calcular</button>
-  <div class="result" id="somaRes"></div>
+  <button onclick="calcularSomador()">Calcular</button>
+  <div class="result" id="somaResultado"></div>
+</div>
 
-  <!-- GRUPO VIP -->
-  <div class="whats">
-    <h3>🟢 Grupo VIP WhatsApp</h3>
-    <p><b>Adriana Aviator</b></p>
-    <button class="btn-whats"
-      onclick="window.open('https://chat.whatsapp.com/JjhxKUuyAGG31FuEQCEb8y','_blank')">
-      ENTRAR NO GRUPO VIP
-    </button>
-  </div>
+<!-- 🔥 GRUPO WHATSAPP -->
+<div class="box" style="border-color:#25D366;margin-top:30px">
+  <h3>🟢 Grupo VIP WhatsApp</h3>
+  <p style="color:#25D366;font-weight:bold">
+    Adriana Aviator ✈️
+  </p>
 
-  <button onclick="logout()">Sair</button>
+  <button class="whatsapp"
+    onclick="window.open('https://chat.whatsapp.com/JjhxKUuyAGG31FuEQCEb8y','_blank')">
+    💬 ENTRAR NO GRUPO VIP
+  </button>
+
+  <p style="font-size:13px;margin-top:10px">
+    🔒 Acesso válido enquanto o login estiver ativo
+  </p>
 </div>
 
 </div>
 
 <script>
-function rand(n){return Math.floor(Math.random()*n)}
-function copiar(t){navigator.clipboard.writeText(t)}
+// ================= LOGIN AUTO =================
+const loginGerado = "CR" + Math.floor(Math.random()*900000+100000);
+const senhaGerada = Math.random().toString(36).slice(-8);
 
-let LOGIN = localStorage.getItem("login");
-let SENHA = localStorage.getItem("senha");
-
-if(!LOGIN){
-  LOGIN = "CR"+(100000+rand(900000));
-  SENHA = Math.random().toString(36).slice(-8);
-  localStorage.setItem("login",LOGIN);
-  localStorage.setItem("senha",SENHA);
+function copiar(txt){
+  navigator.clipboard.writeText(txt);
+  alert("Copiado: " + txt);
 }
 
-genLogin.innerText = LOGIN;
-genSenha.innerText = SENHA;
-
 function entrar(){
-  if(loginInput.value===LOGIN && senhaInput.value===SENHA){
-    loginBox.classList.add("hidden");
-    appBox.classList.remove("hidden");
-  } else {
+  if(
+    document.getElementById("login").value === loginGerado &&
+    document.getElementById("senha").value === senhaGerada
+  ){
+    document.getElementById("loginBox").classList.add("hidden");
+    document.getElementById("app").classList.remove("hidden");
+  }else{
     alert("Login ou senha inválidos");
   }
 }
 
-function logout(){
-  location.reload();
-}
-
-function normaliza(h,m){
-  if(m>=60){m-=60;h++}
+// ================= UTIL =================
+function pad(n){return n<10?"0"+n:n;}
+function norm(h,m){
+  if(m>=60){m-=60;h++;}
   if(h>=24)h=0;
-  return [h,m];
+  return {h,m};
 }
 
-function radar(){
-  let v=radarInput.value;
-  if(v.length!=4)return;
-  let h=+v.slice(0,2), m=+v.slice(2);
+// ================= RADAR =================
+function calcularRadar(){
+  const v=document.getElementById("radarInput").value;
+  let h=parseInt(v.slice(0,2)), m=parseInt(v.slice(2));
   let d=Math.floor(m/10), u=m%10;
+  let r1=d+u, r2=d*u, r3=Math.floor(m/2);
 
-  let a=m+(d+u);
-  let b=m+(d*u);
-  let c=m+Math.floor(m/2);
+  let t1=norm(h,m+r1);
+  let t2=norm(h,m+r2);
+  let t3=norm(h,m+r3);
 
-  let r="";
-  [[h,a],[h,b],[h,c]].forEach(x=>{
-    let n=normaliza(x[0],x[1]);
-    r+=`🎯 <span class="alvo">${String(n[0]).padStart(2,"0")}:${String(n[1]).padStart(2,"0")}</span><br>`;
-  });
-  radarRes.innerHTML=r;
+  radarResultado.innerHTML=`🎯 ${pad(t1.h)}:${pad(t1.m)}<br>
+     🎯 ${pad(t2.h)}:${pad(t2.m)}<br>
+     🎯 ${pad(t3.h)}:${pad(t3.m)}`;
 }
 
-function somador(){
-  let v=somaInput.value;
-  if(v.length!=4)return;let h=+v.slice(0,2), m=+v.slice(2);
-  let ant=(m-1+60)%60;
-  let seg=(m+1)%60;
+// ================= SOMADOR =================
+function calcularSomador(){
+  const v=document.getElementById("somaInput").value;
+  let h=parseInt(v.slice(0,2)), m=parseInt(v.slice(2));
 
-  let r1=normaliza(h,m+(ant%10));
-  let r2=normaliza(h,m+(seg%10));
+  let ant=((m-1+60)%60)%10;
+  let seg=((m+1)%60)%10;
 
-  somaRes.innerHTML=
-  `🎯 <span class="alvo">${r1[1]}</span><br>
-   🎯 <span class="alvo">${r2[1]}</span>`;
+  let a1=norm(h,m+ant);
+  let a2=norm(h,m+seg);
+
+  somaResultado.innerHTML=
+    `🎯 <span class="pisca">${pad(a1.h)}:${pad(a1.m)}</span><br>
+     🎯 <span class="pisca">${pad(a2.h)}:${pad(a2.m)}</span>`;
 }
 </script>
 
